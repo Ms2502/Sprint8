@@ -23,6 +23,7 @@ urlpatterns = [
     path('login/',include('login.urls')),
     path('clientes/',include('clientes.urls')),
     path('prestamos/',include('prestamos.urls')),
+    path('api-auth/', include('rest_framework.urls')),
     path('api/',include('cuentas.urls')),
 
 
