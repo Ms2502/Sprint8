@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITBANK</title>
+</head>
+
+<body>
+
+    <h2>{{request.user.username}}</h2>
+        <div>
+            <li>{{ request.user.cliente.customer_id}}</li>
+            <li>{{ request.user.cliente.customer_name}}</li>
+            <li>{{ request.user.cliente.customer_surname}}</li>
+            <li>{{ request.user.cliente.customer_dni}}</li>
+            <li>{{ request.user.cliente.dob}}</li>
+        </div>
+
+    <div><a href="{% url 'logout' %}">Logout</a></div>
+
+    {% block main%}
+
+    {% endblock main %}
+
+</body>
+
+</html>

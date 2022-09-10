@@ -1,0 +1,28 @@
+{% extends "clientes/base.html" %}
+{% block main %}
+
+    <h1>{{cliente.customer_name}} {{cliente.customer_surname}}</h1>
+    <p>Cantidad de cuentas: {{cliente.cuentas.count}}
+
+    <div>
+        <form action="{% url 'prestamos-pedirprestamo' cliente.customer_id %}" method="post">
+            {% csrf_token %}
+            <fieldset>
+
+                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                <input type="text" name="valor" placeholder="Indique valor del prestamo pretendido" required>
+
+            </fieldset>
+            <input type="submit" value="Pedir">
+        </form>
+    </div>
+    <div>
+        <ul>
+        {% for p in cliente.prestamos.all%}
+        <li>Total: {{p.loan_total}} </li>
+        {% endfor %}
+
+    </div>
+
+{%endblock main%}
+ 

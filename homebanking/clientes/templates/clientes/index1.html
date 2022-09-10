@@ -1,0 +1,16 @@
+{% extends "clientes/base.html" %}
+{% block main %}
+
+    <h1>my first heading</h1>
+    <ul>
+        {% for c in listado_clientes %}
+
+        <li>
+            <a href=" {% url 'cliente-detail' c.customer_id %}" a>{{c.customer_name}} {{c.customer_surname}}</a>
+
+        </li>
+
+        {% endfor %}
+    </ul>
+
+{%endblock main%}
