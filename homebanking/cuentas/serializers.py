@@ -27,22 +27,35 @@ class CuentaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cuenta
-        fields = ['account_id', 'cliente', 'iban', 'tipo_cuenta', 'balance']
-
-class PrestamoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Prestamo
-        fields = "__all__"
-
-class DireccionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Direccion
-        fields = "__all__"
+        fields = ['cliente','tipo_cuenta', 'balance']
 
 class TarjetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tarjeta
         fields = "__all__"
+
+class PrestamoSerializer(serializers.ModelSerializer):
+    sucursal = serializers.SerializerMethodField()
+    def get_sucursal(self,obj):
+        return Sucursal.objects.get(branch_id=obj.customer.branch_id).branch_name
+    
+    branch_id = serializers.SerializerMethodField()
+    def get_branch_id(self,obj):
+        return Sucursal.objects.get(branch_id=obj.customer.branch_id).branch_id
+
+    class Meta:
+        model = Prestamo
+        fields = "__all__"
+
+
+
+        
+
+class DireccionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Direccion
+        fields = ["calle","numero","ciudad","provincia","pais"]
+
 
 class SucursalSerializer(serializers.ModelSerializer):
     class Meta:

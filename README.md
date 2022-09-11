@@ -1,21 +1,21 @@
 # Sprint8
 
- OBTENER DATOS DE UN CLIENTE
+ OBTENER DATOS DE UN CLIENTE X
 Un cliente autenticado puede consultar sus propios datos
 
- OBTENER SALDO DE CUENTA DE UN CLIENTE
+ OBTENER SALDO DE CUENTA DE UN CLIENTE X
 Un cliente autenticado puede obtener el tipo de cuenta y su saldo
 
- OBTENER MONTO DE PRESTAMOS DE UN CLIENTE
-Un cliente autenticado puede obtener el tipo de préstamo y total del mismo
-
- OBTENER MONTO DE PRESTAMOS DE UNA SUCURSAL
+ OBTENER MONTO DE PRESTAMOS DE UNA SUCURSAL X
 Un empleado autenticado puede obtener el listado de préstamos otorgados de
 una sucursal determinada.
 
- OBTENER TARJETAS ASOCIADAS A UN CLIENTE
+ OBTENER TARJETAS ASOCIADAS A UN CLIENTE X
 Un empleado autenticado puede obtener el listado de tarjetas de crédito de un
 cliente determinado
+
+ OBTENER MONTO DE PRESTAMOS DE UN CLIENTE X
+Un cliente autenticado puede obtener el tipo de préstamo y total del mismo
 
  GENERAR UNA SOLICITUD DE PRESTAMO PARA UN CLIENTE
 Un empleado autenticado puede solicitar un préstamo para un cliente, registrado
@@ -28,6 +28,6 @@ el monto correspondiente
  MODIFICAR DIRECCION DE UN CLIENTE
 El propio cliente autenticado o un empleado puede modificar las direcciones.
 
- LISTADO DE TODAS LAS SUCURSALES
+ LISTADO DE TODAS LAS SUCURSALES X
 Un endpoint público que devuelve el listado todas las sucursales con la
 información correspondiente.

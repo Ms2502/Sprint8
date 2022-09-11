@@ -1,21 +1,37 @@
-from msilib.schema import Error
 from rest_framework import permissions
-from cuentas.models import * 
+from cuentas.models import *
 
-# def empleado(request):
+class IsEmployee(permissions.BasePermission):
+    message = 'Debe logearse como empleado para acceder a esta funcion.'
+
+    def has_permission(self, request, view):
+        user = request.user
+        try:
+            Cliente.objects.get(user_id=user.id)
+            return False
+        except:
+            pass
+        try:
+            Empleado.objects.get(user_id=user.id)
+            return True
+        except:
+            pass
+
+
+
+# def es_empleado(request):
+#     user = request.user
 #     try:
-#         empleado = Empleado.objects.get(user_id=request.user.id)
-#         print (empleado)
-#         if empleado in Empleado.objects.all():
-#             return True
-#             print("es empleado")
-#     except Error:
+#         Cliente.objects.get(user_id=user.id)
 #         return False
+#     except:
+#         pass
+#     try:
+#         Empleado.objects.get(user_id=user.id)
+#         return True
+#     except:
+#         pass
 
-# class EsEmpleado(permissions.BasePermission):
-#     message = 'Solo disponible para empleados,intente iniciando sesión.'
 
-#     def has_permission(self, request, view):
-#         request.user and empleado(request)
 
 

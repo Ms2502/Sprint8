@@ -36,7 +36,7 @@ class Cliente(models.Model):
     dob = models.TextField(blank=True, null=True)
     branch_id = models.IntegerField()
     tipo_cliente = models.IntegerField(null =True, blank=True)
-
+    is_employee = models.BooleanField(default=False)
     user = models.OneToOneField(User,null =True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
@@ -92,6 +92,7 @@ class Empleado(models.Model):
     employee_hire_date = models.TextField()
     employee_dni = models.TextField(db_column='employee_DNI')  # Field name made lowercase.
     branch_id = models.IntegerField()
+    is_employee = models.BooleanField(default=True)
 
     user = models.OneToOneField(User,null =True, blank=True, on_delete=models.CASCADE)
 
