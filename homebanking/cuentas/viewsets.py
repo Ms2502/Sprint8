@@ -74,14 +74,21 @@ class PrestamoViewSet(viewsets.ModelViewSet):
 
         monto = int(request.data.get('loan_total'))
         cliente = Cliente.objects.get(customer_id = request.data['customer'])
-        cuenta = Cuenta.objects.get(customer_id = cliente.customer_id)
+        cuenta = Cuenta.objects.get(customer_id = cliente.customer_id) 
         cuenta.balance = int(cuenta.balance) + monto
         cuenta.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def destroy(self, request, *args, **kwargs):
+       
         instance = self.get_object()
+        # cliente = Cliente.objects.get(customer_id = instance.customer)
+        # cuenta = Cuenta.objects.get(customer_id = cliente.customer_id) 
+        print(type(instance))
+        # print(cliente)
+        # print(cuenta)
+
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)  
 
