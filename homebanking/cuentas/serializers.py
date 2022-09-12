@@ -16,6 +16,7 @@ class ClienteSerializer(serializers.ModelSerializer):
         model = Cliente
         fields = "__all__"   
 
+
 class CuentaSerializer(serializers.ModelSerializer):
     cliente = serializers.SerializerMethodField()
     def get_cliente(self, obj):
@@ -29,10 +30,12 @@ class CuentaSerializer(serializers.ModelSerializer):
         model = Cuenta
         fields = ['cliente','tipo_cuenta', 'balance']
 
+
 class TarjetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tarjeta
         fields = "__all__"
+
 
 class PrestamoSerializer(serializers.ModelSerializer):
     sucursal = serializers.SerializerMethodField()
@@ -48,13 +51,10 @@ class PrestamoSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
-        
-
 class DireccionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Direccion
-        fields = ["calle","numero","ciudad","provincia","pais"]
+        fields = ["direccion_id","calle","numero","ciudad","provincia","pais"]
 
 
 class SucursalSerializer(serializers.ModelSerializer):

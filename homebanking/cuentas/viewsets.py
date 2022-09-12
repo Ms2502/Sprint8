@@ -1,15 +1,16 @@
 from django.contrib.auth.models import User
-from rest_framework import  viewsets, generics
+from rest_framework import  viewsets,status
+
+from rest_framework.response import  Response
 from rest_framework.permissions import AllowAny,IsAuthenticated
-from rest_framework.authentication import BasicAuthentication
 
 from cuentas.permissions import IsEmployee
 from cuentas.serializers import *
 from cuentas.models import Cliente, Cuenta, Prestamo, Direccion, Tarjeta, Sucursal,Empleado
 
 
-
 # ViewSets define the view behavior.
+
 
 class CuentaViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -22,18 +23,8 @@ class CuentaViewSet(viewsets.ReadOnlyModelViewSet):
         try:
             cliente = Cliente.objects.get(user_id=user.id)
             return Cuenta.objects.filter(customer_id=cliente.customer_id)
-        except:
+        except:                    #"asumimos" que al no ser Cliente, va a ser empleado
             return Cuenta.objects.all()
-
-    # def get_permissions(self):
-    #     """
-    #     Instantiates and returns the list of permissions that this view requires.
-    #     """
-    #     if self.action == 'list':
-    #         permission_classes = [AllowAny]
-    #     else:
-    #         permission_classes = [IsAuthenticated]
-    #     return [permission() for permission in permission_classes]
 
 
 class ClienteViewSet(viewsets.ModelViewSet):
@@ -41,7 +32,7 @@ class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
 
-    def get_queryset(self):        #permite filtrar la lista de clientes por customer_id         
+    def get_queryset(self):             
         try:
             Empleado.objects.get(user_id = self.request.user.id)
             queryset = Cliente.objects.all()
@@ -60,7 +51,7 @@ class PrestamoViewSet(viewsets.ModelViewSet):
     queryset = Prestamo.objects.all()
     serializer_class = PrestamoSerializer
 
-    def get_queryset(self):        #permite filtrar la lista de prestamos por branch_id         
+    def get_queryset(self):            
         queryset = Prestamo.objects.all()
         try:
             Empleado.objects.get(user_id = self.request.user.id)
@@ -74,6 +65,28 @@ class PrestamoViewSet(viewsets.ModelViewSet):
             user = self.request.user
             cliente = Cliente.objects.get(user_id = user.id)
             return Prestamo.objects.filter(customer_id=cliente.customer_id)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)  
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action in ('create','destroy'):
+            permission_classes = [IsEmployee]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]  
 
 
   
@@ -91,6 +104,7 @@ class DireccionViewSet(viewsets.ModelViewSet):
             return Direccion.objects.filter(cliente=cliente.customer_id)
         except:
             return Direccion.objects.all()
+    
 
 class TarjetaViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
