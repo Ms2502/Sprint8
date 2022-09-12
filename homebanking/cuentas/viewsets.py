@@ -71,6 +71,13 @@ class PrestamoViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
+
+        monto = int(request.data.get('loan_total'))
+        cliente = Cliente.objects.get(customer_id = request.data['customer'])
+        cuenta = Cuenta.objects.get(customer_id = cliente.customer_id)
+        cuenta.balance = int(cuenta.balance) + monto
+        cuenta.save()
+
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def destroy(self, request, *args, **kwargs):
